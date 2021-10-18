@@ -13,8 +13,10 @@
 ::DIS::DISPLAY
 ::AGG::AGGIORNAMENTO
 ::grg::giorgio.leggio@gmail.com
- 
-
+;;;;;;;MODALITA' PISTOLA;;;;;;;;;;;;;
+;'::-
+;-::?
+;ì::'
  
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;AUTOCOMPLETAMENTI;;;;;;;;;
@@ -77,6 +79,11 @@ VARIABILE= +ALIMENTATORE
 gosub INSERISCI 
 return
  
+^p::
+VARIABILE= PIEDI NON LASCIATO TELECOMANDO 
+gosub INSERISCI 
+return
+
 ^u::
 VARIABILE= +CAVO USB
 gosub INSERISCI 
@@ -192,27 +199,28 @@ return
 gosub INIZIA_SCANSIONE
 return
  
-^F1::
-FileRead, Clipboard, C:\Users\Public\SMS.txt
-MsgBox, 4,, Questi sono i numeri inseriti, vanno bene?`n`LISTA: %Clipboard%
-IfMsgBox Yes
-{
+;^F1::
+;FileAppend, 3339282529; , C:\Users\Public\SMS.txt
+;FileRead, Clipboard, C:\Users\Public\SMS.txt
+;MsgBox, 4,, Questi sono i numeri inseriti, vanno bene?`n`LISTA: %Clipboard%
+;IfMsgBox Yes
+;{
 	;;Filecopy, C:\Users\Public\SMS.txt, \\Pc_sms\inrete\SMS.txt, 1
-	SoundBeep  ; Play the default pitch and duration.
+;	SoundBeep  ; Play the default pitch and duration.
 
-	Filecopy, C:\Users\Public\SMS.txt, C:\Users\Public\SMS.bkp, 1
-	SoundBeep, 750, 500  ; Play a higher pitch for half a second.
+;	Filecopy, C:\Users\Public\SMS.txt, C:\Users\Public\SMS.bkp, 1
+;	SoundBeep, 750, 500  ; Play a higher pitch for half a second.
 
 	;;Filedelete, C:\Users\Public\SMS.txt
-	SoundBeep, 100, 1000
-	Run C:\Program Files (x86)\Nokia\Nokia PC Suite 7\CommunicationCentre.exe
-	RETURN
-}
-IfMsgBox No
-{
-	Run C:\Windows\Notepad.exe "C:\Users\Public\SMS.txt"
-	RETURN
-}
+;	SoundBeep, 100, 1000
+;	Run C:\Program Files (x86)\Nokia\Nokia PC Suite 7\CommunicationCentre.exe
+;	RETURN
+;}
+;IfMsgBox No
+;{
+;	Run C:\Windows\Notepad.exe "C:\Users\Public\SMS.txt"
+;	RETURN
+;}
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;FUNZIONI ;;;;;;;;;;;;;;
@@ -224,27 +232,34 @@ gosub COPIA_N_SCHEDA
 gosub SALVA_SCANSIONE
 clipboard =  
 return
- 
+
+;DISATTIVATO 
 ;SMS ALTRO/SAMS
-^F12::
-gosub COPIA_N_TEL
-gosub AGGIUNGI_LISTA
-gosub SETTA_INVIATO
-gosub INPUT_UBICAZIONE
-RETURN
+;^F12::
+;gosub COPIA_N_TEL
+;gosub AGGIUNGI_LISTA
+;gosub SETTA_INVIATO
+;gosub INPUT_UBICAZIONE
+;RETURN
  
 ;SMS LIBERO SENZA UBICAZIONE
-^F11::
-gosub COPIA_N_TEL
-gosub AGGIUNGI_LISTA
-gosub SETTA_INVIATO
-Sleep, 700
-Send, {Esc}
-RETURN
+;^F11::
+;gosub COPIA_N_TEL
+;gosub AGGIUNGI_LISTA
+;gosub SETTA_INVIATO
+;Sleep, 700
+;Send, {Esc}
+;RETURN
  
 ;SMS RICAMBI
 ^F8::
 gosub INPUT_RICAMBIO
+RETURN
+
+;WZP
+^F9::
+gosub COPIA_N_TEL
+gosub INPUT_WZP
 RETURN
 
 ^1::
@@ -268,20 +283,59 @@ clipboard = GENTILE CLIENTE, LA INFORMIAMO CHE IL RICAMBIO DA LEI ORDINATO E' AR
 Send, {CTRLDOWN}v{CTRLUP}
 return
 
-;INCOLLA SU NOKIA PC SUITE
-^F3::
-gosub INVIA_MESSAGGI
-FileDelete, C:\Users\Public\SMS.txt
-SoundBeep, 750, 300  ; Play a higher pitch for half a second
-;;;FileDelete, C:\Documents and Settings\alex\Desktop\INRETE\SMS.txt
-SoundBeep, 500, 700
-sleep, 500
-SoundBeep, 500, 500
-sleep, 500
-SoundBeep, 500, 500
-sleep, 500
-click
+^9::
+SoundBeep  
+SoundBeep, 750, 500  
+clipboard = Gentile cliente, questo account Whatsapp non è più utilizzato. Il nuovo account per contattare l'azienda RADIOFRANCO è *(Clicca per aprire)* https://wa.me/3909321846359  [MESSAGGIO AUTOMATICO]
+Send, {CTRLDOWN}v{CTRLUP}
+return
+
+^0::
+SoundBeep  
+SoundBeep, 750, 500  
+clipboard = Gentile cliente, Le ricordiamo che è possibile controllare lo stato di un apparecchio in lavorazione accedendo al sito www.radiofranco.it e inserendo il CODICE CLIENTE presente sulla ricevuta in vostro possesso. Grazie [MESSAGGIO AUTOMATICO]
+Send, {CTRLDOWN}v{CTRLUP}
+return
+
+;INVIA WHATSAPP
+^F1::
+gosub COPIA_N_TEL
+gosub SETTA_INVIATO
+gosub INPUT_WZP_DIRETTO
+clipboard = GENTILE CLIENTE, LA INFORMIAMO CHE IL SUO APPARECCHIO E' PRONTO PER IL RITIRO. SI PREGA DI PORTARE LA RICEVUTA PER IL RITIRO, GRAZIE. RADIOFRANCO ORARI LUN-VEN 9.00 13.00 - 16.00 18.30.
 RETURN
+
+;INVIA WHATSAPP
+^F11::
+gosub COPIA_N_TEL
+gosub SETTA_INVIATO
+gosub INPUT_WZP_DIRETTO
+clipboard = GENTILE CLIENTE, LA INFORMIAMO CHE IL SUO APPARECCHIO E' PRONTO PER IL RITIRO. SI PREGA DI PORTARE LA RICEVUTA PER IL RITIRO, GRAZIE. RADIOFRANCO ORARI LUN-VEN 9.00 13.00 - 16.00 18.30.
+RETURN
+
+;INVIA WHATSAPP CON UBICAZIONE
+^F12::
+gosub COPIA_N_TEL
+gosub SETTA_INVIATO
+gosub INPUT_UBICAZIONE
+gosub INPUT_WZP_DIRETTO
+clipboard = GENTILE CLIENTE, LA INFORMIAMO CHE IL SUO APPARECCHIO E' PRONTO PER IL RITIRO. SI PREGA DI PORTARE LA RICEVUTA PER IL RITIRO, GRAZIE. RADIOFRANCO ORARI LUN-VEN 9.00 13.00 - 16.00 18.30.
+RETURN
+
+;DISATTIVATO INCOLLA SU NOKIA PC SUITE
+;^F3::
+;gosub INVIA_MESSAGGI
+;FileDelete, C:\Users\Public\SMS.txt
+;SoundBeep, 750, 300  ; Play a higher pitch for half a second
+;;;FileDelete, C:\Documents and Settings\alex\Desktop\INRETE\SMS.txt
+;SoundBeep, 500, 700
+;sleep, 500
+;SoundBeep, 500, 500
+;sleep, 500
+;SoundBeep, 500, 500
+;sleep, 500
+;click
+;RETURN
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;SUBROUTINE;;;;;;;;;;;;;;;
@@ -322,10 +376,10 @@ Sleep, 100
 return
  
 INIZIA_SCANSIONE:
-WinActivate, PaperScan Scanner Software 1.8.4 Free Edition ahk_class WindowsForms10.Window.8.app.0.378734a ahk_exe PaperScan.exe
-Click, 37, 78 Left, Down
-Sleep, 200
-Click, 37, 160 Left, Up
+#WinActivateForce
+WinActivate, Not Another PDF Scanner 2
+Sleep, 700
+Send, {F2}
 Sleep, 700
 GOSUB ATTIVA_GESAT
 Sleep, 700
@@ -335,18 +389,12 @@ GOSUB ATTIVA_GESAT
 return
  
 SALVA_SCANSIONE:
-WinActivate, PaperScan Scanner Software 1.8.4 Free Edition ahk_class WindowsForms10.Window.8.app.0.378734a ahk_exe PaperScan.exe
-Click, 137, 78 Left, Down
+WinActivate, Not Another PDF Scanner 2
+Click, 372, 58 Left, Down
 Sleep, 400
-Click, 137, 78 Left, Up
+Click, 372, 58 Left, Up
 Sleep, 400
-WinActivate, PaperScan Scanner Software - Saving Wizard ahk_class WindowsForms10.Window.8.app.0.378734a
-Sleep, 400
-;SI SPOSTA SU NEXT
-Click, 317, 424 Left, Down
-Sleep, 400
-Click, 317, 424 Left, Up
-Sleep, 800
+
 WinActivate, Saving page(s) ahk_class #32770 ahk_exe PaperScan.exe
 ;WinActivate, Saving page(s) ahk_class #32770
 ;CLICCA TASTO DESTRA SU BARRA NOME FILE
@@ -365,8 +413,17 @@ Click, 390, 500 Left, Up
 ;CLICCA SALVA
 Sleep, 700
 Click, 670, 490 Left, Down
-Sleep, 400
+Sleep, 800
 Click, 670, 490 Left, Up
+
+WinActivate, Not Another PDF Scanner 2
+Sleep, 1900
+Click, 926, 55 Left, Down
+Click, 926, 55 Left, Up
+Sleep, 1900
+Send, {RETURN}
+
+
 GOSUB ATTIVA_GESAT
 Return
  
@@ -374,10 +431,12 @@ AGGIUNGI_LISTA:
 FileAppend, %Clipboard%; , C:\Users\Public\SMS.txt
 SoundBeep, 987, 500
 return
- 
+
+
 SETTA_INVIATO:
 GOSUB ATTIVA_GESAT
 Send, {F6}
+Send,  {Down}
 Sleep, 250
 Send, {NumpadEnter}
 Sleep, 500
@@ -396,6 +455,21 @@ IfMsgBox Yes
     GOSUB INPUT_RICAMBIO
 else
     return
+return
+
+INPUT_WZP:
+SoundBeep, 1244, 300
+SoundBeep, 932, 500
+InputBox, NumeroTel, Invia Watsapp a NUMERO, Inserisci il numero di cellulare del cliente, 320, 240
+FileAppend, %NumeroTel%; , C:\Users\Public\SMS.txt
+Run, open "https://wa.me/39%NumeroTel%"
+return
+
+INPUT_WZP_DIRETTO:
+SoundBeep, 1244, 300
+SoundBeep, 932, 500
+Run, open "https://wa.me/39%Clipboard%"
+clipboard = GENTILE CLIENTE, LA INFORMIAMO CHE IL SUO APPARECCHIO E' PRONTO PER IL RITIRO. SI PREGA DI PORTARE LA RICEVUTA PER IL RITIRO, GRAZIE. RADIOFRANCO ORARI LUN-VEN 9.00 13.00 - 16.00 18.30.
 return
 
 INPUT_UBICAZIONE_XX:
@@ -452,7 +526,7 @@ INPUT_UBICAZIONE:
 SoundBeep, 1244, 300
 SoundBeep, 932, 500
 Text := "Scegli dove verrà ubicato il prodotto."
-Result := MagicBox(Text, "Confirm", "&1-Altro|&2-Alcatel|&3-Samsung|&4-Mediacom|&5-LG|&6-SONY|&7-Nokia|&8-Motorola|&9-Tab|&0-HTC|&Scrivi|Ca&ncel", [29], "", "", 0, 0, "", "", "", "")
+Result := MagicBox(Text, "Confirm", "&1-Altro|&2-Alcatel|&3-Samsung|&4-Mediacom|&5-LG|&6-SONY|&7-Nokia|&8-Motorola|&9-Tab|&0-Brondi|&Scrivi|Ca&ncel", [29], "", "", 0, 0, "", "", "", "")
 	if Result = 1-Altro
 	{
 		Ubicazione = ALTRO
@@ -504,9 +578,9 @@ Result := MagicBox(Text, "Confirm", "&1-Altro|&2-Alcatel|&3-Samsung|&4-Mediacom|
 		Ubicazione = TAB
 	}
 
-	if Result = 0-HTC
+	if Result = 0-Brondi
 	{
-		Ubicazione = HTC
+		Ubicazione = BRONDI
 	}
 
 	if Result = Scrivi
