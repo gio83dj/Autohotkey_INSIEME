@@ -18,6 +18,7 @@
 ;-::?
 ;ì::'
  
+percentage := "%"
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;AUTOCOMPLETAMENTI;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -55,9 +56,10 @@ VARIABILE= CONTROLLARE ACCESSORI - MATRICOLA LETTA DA SCATOLA
 gosub INSERISCI 
 RETURN
 
-;^k::
+^k::
+clipboard = `%0a
 ;WinMove, server2015 - Connessione Desktop remoto ,,0,0
-;RETURN
+RETURN
 
 ^n::
 VARIABILE = NESSUNO
@@ -462,14 +464,15 @@ SoundBeep, 1244, 300
 SoundBeep, 932, 500
 InputBox, NumeroTel, Invia Watsapp a NUMERO, Inserisci il numero di cellulare del cliente, 320, 240
 FileAppend, %NumeroTel%; , C:\Users\Public\SMS.txt
-Run, open "https://wa.me/39%NumeroTel%"
+;Run, open "https://wa.me/39%Clipboard%?text=GENTILE CLIENTE. LA INFORMIAMO CHE IL SUO APPARECCHIO E' PRONTO PER IL RITIRO SI PREGA DI PORTARE LA RICEVUTA --RADIOFRANCO ORARI LUN-VEN 9.00 13.00 -- 16.00 19.00"
+Run, open "https://wa.me/39%Clipboard%"
 return
 
 INPUT_WZP_DIRETTO:
 SoundBeep, 1244, 300
 SoundBeep, 932, 500
-Run, open "https://wa.me/39%Clipboard%"
-clipboard = GENTILE CLIENTE, LA INFORMIAMO CHE IL SUO APPARECCHIO E' PRONTO PER IL RITIRO. SI PREGA DI PORTARE LA RICEVUTA PER IL RITIRO, GRAZIE. RADIOFRANCO ORARI LUN-VEN 9.00 13.00 - 16.00 18.30.
+Run, open "https://wa.me/39%Clipboard%?text=Gentile cliente la informiamo che il suo apparecchio e' *pronto per il ritiro*. `%0a`%0a_Si prega di portare la ricevuta_ `%0a`%0a`%0a*RADIOFRANCO* `%0aORARI DI APERTURA `%0aLUN-VEN `%0a8.45 - 13.00`%0a15.45 - 19.00"
+;clipboard = GENTILE CLIENTE, LA INFORMIAMO CHE IL SUO APPARECCHIO E' PRONTO PER IL RITIRO. SI PREGA DI PORTARE LA RICEVUTA PER IL RITIRO, GRAZIE. RADIOFRANCO ORARI LUN-VEN 9.00 13.00 - 16.00 18.30.
 return
 
 INPUT_UBICAZIONE_XX:
